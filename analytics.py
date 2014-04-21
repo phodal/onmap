@@ -46,7 +46,7 @@ def write_data(paths):
         # print tags['GPS GPSLongitudeRef']
         # print tags['GPS GPSLatitudeRef']
         jsonFile.writelines('{"type": "Feature","properties": {"cartodb_id":"' + str(index) + '"')
-        # jsonFile.writelines(',"OS":"' + str(tags['Image Software']) + '","Model":"' + str(tags['Image Model']) + '","Picture":"'+str(path[7:])+'"')
+        jsonFile.writelines(',"OS":"' + str(tags['Image Software']) + '","Model":"' + str(tags['Image Model']) + '","Picture":"'+str(path[7:])+'"')
         jsonFile.writelines('},"geometry": {"type": "Point","coordinates": [' + str(parse_gps(longitude)) + ',' + str(
             parse_gps(latitude)) + ']}},\n')
         index += 1
