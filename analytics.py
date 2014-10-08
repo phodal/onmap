@@ -32,24 +32,28 @@ def parse_gps(gps):
 
 def write_data(file, paths):
     index = 1
-    for path in all_files('./' + paths, '*.jpg'):
-        f = open(path[2:], 'rb')
+    for path in all_files(os.path.expanduser(paths), '*.jpg'):
+        f = open(path, 'rb')
         tags = exifread.process_file(f)
         if 'GPS GPSLatitude' in tags:
             latitude = tags['GPS GPSLatitude'].printable[1:-1]
             longitude = tags['GPS GPSLongitude'].printable[1:-1]
+
             file.writelines('{"type": "Feature","properties": {"cartodb_id":"' + str(index) + '"')
-            file.writelines(',"OS":"' + str(tags['Image Software']) + '","Model":"' + str(tags['Image Model']) + '","Picture":"'+str(path[7:])+'"')
+
+            file.writelines(',"OS":"' + str(tags['Image Software']) + '","Model":"' + str(
+                tags['Image Model']) + '","image_thumb":"' + str('https://raw.githubusercontent.com/gmszone/onmap/master/resize/' + os.path.splitext(path)[0].rsplit('/', 1)[-1]) + '.thumbnail.jpg"')
+
             file.writelines('},"geometry": {"type": "Point","coordinates": [' + str(parse_gps(longitude)) + ',' + str(
                 parse_gps(latitude)) + ']}},\n')
             index += 1
 
+
 if __name__ == "__main__":
-    
     jsonFile = open("gps.geojson", "w")
+
     jsonFile.writelines('{\n"type": "FeatureCollection","features": [\n')
-
-    write_data(jsonFile, 'imgs')
-
+    write_data(jsonFile, '~/Pictures/Nokia')
     jsonFile.writelines(']}\n')
+
     jsonFile.close()
