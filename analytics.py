@@ -42,7 +42,7 @@ def write_data(file, paths):
             file.writelines('{"type": "Feature","properties": {"cartodb_id":"' + str(index) + '"')
 
             file.writelines(',"OS":"' + str(tags['Image Software']) + '","Model":"' + str(
-                tags['Image Model']) + '","image_thumb":"' + str('https://raw.githubusercontent.com/gmszone/onmap/master/resize/' + os.path.splitext(path)[0].rsplit('/', 1)[-1]) + '.thumbnail.jpg"')
+                tags['Image Model']) + '","image_thumb":"' + str('https://raw.githubusercontent.com/phodal/onmap/master/resize/' + os.path.splitext(path)[0].rsplit('/', 1)[-1]) + '.thumbnail.jpg"')
 
             file.writelines('},"geometry": {"type": "Point","coordinates": [' + str(parse_gps(longitude)) + ',' + str(
                 parse_gps(latitude)) + ']}},\n')
